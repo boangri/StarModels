@@ -5,6 +5,7 @@ import physics as ph
 M = 1.99e33  # solar mass
 R = 6.96e10  # solar radius
 L = 3.85e33  # solar luminosity
+T = pow(L / 4 / ph.pi / ph.sigma / R / R, 1 / 4)  # 5780 solar surface temperature
 Z = 0.02
 
 M18 = [0, .0099, .0385, .1038, .1620, .2100, .2580, .3100, .3900, .4700, .5500, .6900, .8300,
@@ -45,4 +46,4 @@ def load_data():
                          'Hydrogen': x, 'Opacity': k, 'Convection': c, 'Pressure': p})
 
 
-print('SSM18 version 1.0')
+print('SSM18 version 1.1')
