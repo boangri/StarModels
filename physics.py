@@ -25,9 +25,9 @@ def Pressure(den, T, X, Y, Z):
     return den / m_prot / mu * kB * T
 
 
-# Зельдович, p.70, 71:
-# Energy generation rate in p-p cycle [erg/g/sm] divided by X
-def E0pp(den, T, X):
+# Zeldovich, p.70, 71:
+# Energy generation rate in p-p cycle [erg/g/sm]
+def Epp(den, T, X):
     T0 = (1e6, 5e6, 10e6, 15e6, 20e6, 30e6)
     e0 = (4e-9, 1.8e-3, 6.8e-2, 0.377, 1.09, 4.01)
     n = (10.6, 5.95, 4.60, 3.95, 3.64, 3.03)
@@ -38,11 +38,11 @@ def E0pp(den, T, X):
             break
         if not found:
             i = len(T0) - 1
-    return den * X * e0[i] * pow(T / T0[i], n[i])
+    return den * X * X * e0[i] * pow(T / T0[i], n[i])
 
 
-# Energy generation rate in CNO cycle [erg/g/sm] divided by X
-def E0cno(den, T, XCNO):
+# Energy generation rate in CNO cycle [erg/g/sm]
+def Ecno(den, T, X, XCNO):
     T0 = (6e6, 10e6, 15e6, 20e6, 30e6, 50e6, 100e6)
     e0 = (9e-10, 3.4e-4, 1.94, 4.5e2, 4.1e5, 6.2e8, 1.9e12)
     n = (27.3, 22.9, 19.9, 18.0, 15.6, 13.6, 10.2)
@@ -53,12 +53,12 @@ def E0cno(den, T, XCNO):
             break
     if not found:
         i = len(T0) - 1
-    return den * XCNO * e0[i] * pow(T / T0[i], n[i])
+    return den * X * XCNO * e0[i] * pow(T / T0[i], n[i])
 
 
-# Total energy generation - multiply by X.
+# Total energy generation
 def Etot(den, T, X, Y, Z):
-    return X * (E0pp(den, T, X) + E0cno(den, T, Z))
+    return Epp(den, T, X) + Ecno(den, T, X, Z)
 
 
 def MU(X, Y, Z):
@@ -78,11 +78,11 @@ Kst = [9.94082840e+01, 3.60946746e+01,
 
 def opacity(den, T, X, Y, Z):
     if T <= Tst[0]:
-        return den * Kst[0] * T / Tst[0]
+        return den * Kst[0]
     for i in range(len(Tst) - 1):
         if T <= Tst[i + 1]:
             return den * (Kst[i] + (T - Tst[i]) / (Tst[i + 1] - Tst[i]) * (Kst[i + 1] - Kst[i]))
     return den * Kst[-1]
 
 
-print('Physics version 1.2')
+print('Physics version 1.3 5.07.2020')
