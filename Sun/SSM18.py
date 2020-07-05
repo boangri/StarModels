@@ -100,11 +100,13 @@ def load_interpolated_data(K=12):
             l[j + K * i] = interpolate(R, r1[i], r1[i + 1], r1[i + 2], l1[i], l1[i + 1], l1[i + 2])
             x[j + K * i] = interpolate(R, r1[i], r1[i + 1], r1[i + 2], x1[i], x1[i + 1], x1[i + 2])
             o[j + K * i] = interpolate(R, r1[i], r1[i + 1], r1[i + 2], o1[i], o1[i + 1], o1[i + 2])
-
-    for j in range(K):
-        m[j] = m1[1]*pow(r[j]/r1[1], 3)
+    # special processing for the 1st layer
+    for j in range(1, K):
+        d[j] = d1[0] + (d1[1] - d1[0])*j*j/K/K
+        # m[j] = m1[1]*pow(r[j]/r1[1], 3)
         l[j] = l1[1]*pow(r[j]/r1[1], 3)
-        # m[j] = m[j-1] + d[j]*4/3*ph.pi*(pow(r[j], 3) - pow(r[j-1], 3))
+        m[j] = m[j-1] + (d[j] + d[j-1])*2/3*ph.pi*(pow(r[j], 3) - pow(r[j-1], 3))
+    # special processing for the last layer
     for j in range(K):
         R = r1[N - 1] + (r1[N] - r1[N - 1]) * j / K
         r[j + K * (N - 1)] = R
@@ -124,4 +126,4 @@ def load_interpolated_data(K=12):
                          'Hydrogen': x, 'Opacity': o, 'Pressure': p})
 
 
-print('SSM18 version 1.4')
+print('SSM18 version 1.7 4.07.2020')
