@@ -76,7 +76,7 @@ Kst = [9.94082840e+01, 3.60946746e+01,
        8.96191187e-03, 7.03774792e-03]
 
 
-def opacity(den, T, X, Y, Z):
+def Opacity(den, T, X, Y, Z):
     if T <= Tst[0]:
         return den * Kst[0]
     for i in range(len(Tst) - 1):
@@ -85,4 +85,4 @@ def opacity(den, T, X, Y, Z):
     return den * Kst[-1]
 
 
-print('Physics version 1.3 5.07.2020')
+print('Physics version 1.4 9.07.2020')
