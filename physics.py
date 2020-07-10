@@ -76,7 +76,7 @@ Kst = [9.94082840e+01, 3.60946746e+01,
        8.96191187e-03, 7.03774792e-03]
 
 
-def Opacity(den, T, X, Y, Z):
+def OpacitySSM18(den, T, X, Y, Z):
     if T <= Tst[0]:
         return den * Kst[0]
     for i in range(len(Tst) - 1):
@@ -85,4 +85,18 @@ def Opacity(den, T, X, Y, Z):
     return den * Kst[-1]
 
 
-print('Physics version 1.4 9.07.2020')
+def Opacity(den, T, X, Y, Z):
+    """
+    Zeldovich p.52
+    :param den: density [g/sm3]
+    :param T: temperature [K]
+    :param X: hydrogen
+    :param Y: helium
+    :param Z: other
+    :return: opacity [sm3/g]
+    """
+    T0 = 2e6
+    return 0.4 + 2.3*(1 - math.exp(-pow(T/T0, 9/2)))*7e22*den*pow(T, -7/2)*(X + Y)*(X + 0.5*Y)
+
+
+print('Physics version 1.11 10.07.2020')
