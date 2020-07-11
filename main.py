@@ -1,5 +1,5 @@
 # import pandas as pd
-import physics as ph
+import phys as ph
 from Sun import SSM18
 
 print('speed of light = %e' % ph.c)
